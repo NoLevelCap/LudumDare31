@@ -14,11 +14,12 @@ public class Batch {
 	private SpriteBatch BATCH;
 	private OrthographicCamera VP;
 	
-	public Batch(float W, float H){
+	public Batch(float W, float H, Screen Parent){
 		DRAWABLES = new Array<Drawable>();
 		BATCH = new SpriteBatch();
 		VP = new OrthographicCamera(W, H);
 		VP.setToOrtho(false);	
+		this.SC = Parent;
 	}
 	
 	public void render(TextureManager TM){

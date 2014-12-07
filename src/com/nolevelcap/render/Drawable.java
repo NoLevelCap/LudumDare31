@@ -9,7 +9,7 @@ public abstract class Drawable {
 	
 	private Rectangle BOUNDS;
 	private int ZIndex;
-	private boolean isDown;
+	private boolean isDown, hovered;
 	protected Screen PS;
 	protected Batch BAT;
 	
@@ -44,6 +44,22 @@ public abstract class Drawable {
 		return getBOUNDS().y;
 	}
 	
+	public void setX(float x){
+		BOUNDS.x = x;
+	}
+	
+	public void setY(float y){
+		BOUNDS.y = y;
+	}
+	
+	public void updateX(float x){
+		BOUNDS.x += x;
+	}
+	
+	public void updateY(float y){
+		BOUNDS.y += y;
+	}
+	
 	public float getWIDTH(){
 		return getBOUNDS().width;
 	}
@@ -61,6 +77,7 @@ public abstract class Drawable {
 	}
 	
 	public abstract void onClick(float x, float y);
+	public abstract void onHover(float x, float y);
 	public abstract void touchDown();
 	public abstract void touchUp();
 
@@ -70,6 +87,14 @@ public abstract class Drawable {
 
 	public void setDown(boolean isDown) {
 		this.isDown = isDown;
+	}
+	
+	public boolean isHovered() {
+		return hovered;
+	}
+
+	public void setHovered(boolean hovered) {
+		this.hovered = hovered;
 	}
 	
 	public void setPS(Screen PS){
@@ -97,4 +122,6 @@ public abstract class Drawable {
 			return null;
 		}
 	}
+	
+	
 }

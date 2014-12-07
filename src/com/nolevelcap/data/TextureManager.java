@@ -45,6 +45,10 @@ public class TextureManager {
 		Textures.put(name, new TextureRegion(new Texture(tex), x, y, w, h));
 	}
 	
+	public void addTexture(String name, String tex, int x, int y, int w, int h){
+		Textures.put(name, new TextureRegion(getTexture(tex), x, y, w, h));
+	}
+	
 	public void removeTexture(String name){
 		Textures.remove(name);
 	}

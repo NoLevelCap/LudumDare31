@@ -64,4 +64,8 @@ public class SnapMap<K, T> implements Iterable<T>{
 		keyIndex.removeIndex(indexOf);
 		contentIndex.removeIndex(indexOf);
 	}
+	
+	public Array<T> contents(){
+		return contentIndex;
+	}
 }

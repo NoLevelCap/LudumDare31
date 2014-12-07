@@ -25,7 +25,7 @@ public abstract class Screen {
 	
 	protected SnapMap<String, Drawable> DRAWABLES;
 	private Array<Batch> BATCHES;
-	private TextureManager TM;
+	protected TextureManager TM;
 
 	public Screen(TextureManager TM) {
 		DRAWABLES =  new SnapMap<String, Drawable>();
@@ -45,6 +45,8 @@ public abstract class Screen {
 		for(Drawable obj: DRAWABLES){
 			obj.logic();
 		}
+		
+		handleHover(Gdx.input.getX(), Gdx.input.getY());
 		
 		if(Gdx.input.isTouched()){
 			handleMouseInput(Gdx.input.getX(), Gdx.input.getY());
@@ -149,6 +151,10 @@ public abstract class Screen {
 		TM.addTexture(name, handle, x, y, w, h);
 	}
 	
+	public void load(String handle, int x, int y, int w, int h, String name){
+		TM.addTexture(name, handle, x, y, w, h);
+	}
+	
 	public TextureManager getTextureManager(){
 		return TM;
 	}
@@ -184,6 +190,31 @@ public abstract class Screen {
 			}
 		}
 	}
+	
+	public void handleHover(int x, int y){
+		Vector2 s = new Vector2(x, y);
+		Vector2 d = new Vector2();
+		
+		Array<Drawable> OnClickDrawables = new Array<Drawable>();
+		for(Drawable obj: DRAWABLES){
+
+			//Gdx.app.log("INFO", obj.getBOUNDS().y+"/"+obj);
+			if(obj.BAT != null){
+				d = project(obj.BAT.getVP(), s);
+				if(obj.getBOUNDS().contains(d)){
+					if(!obj.isHovered()){
+						obj.onHover(d.x, d.y);
+						obj.setHovered(true);
+					}
+				} else {
+					obj.setHovered(false);
+				}
+				//Gdx.app.log("INFO", "BATCH: "+obj.getBAT()+"//"+obj.getBOUNDS().y+"?"+obj.getBOUNDS().contains(d)+"???"+d.y+"/"+d.x);
+			} else {
+				Gdx.app.error("No Batch", obj + "has no attributed batch");
+			}
+		}
+	}
 
 	public abstract void resume();
 
@@ -197,5 +228,9 @@ public abstract class Screen {
 		d.y = ((cam.viewportHeight - s.y) + cam.position.y)-(cam.viewportHeight/2);
 		return d;
 		
+	}
+	
+	public SnapMap<String, Drawable> getDrawables(){
+		return DRAWABLES;
 	}
 }
